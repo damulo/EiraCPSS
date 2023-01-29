@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "Eira-fa-dt": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ADT_SERVICE_URL": "https://digital-twins-instance20211606162304.api.weu.digitaltwins.azure.net",
+        "usuariosConnectionString": "Endpoint=sb://eira-eventhubs.servicebus.windows.net/;SharedAccessKeyName=hub-usuarios-policy;SharedAccessKey=VKaYz86d6WtNSP1NDU0t0hMzJkqlvskd36ODpmCPGxU=;EntityPath=hub-usuarios",
+        "hubGemelosConnectionString": "Endpoint=sb://eira-eventhubs.servicebus.windows.net/;SharedAccessKeyName=hub-dt-gemelos-policy;SharedAccessKey=6jgjw/fY0sQzVGWQLgp2+feoNN4RMqgdxPSj4TrWb9c=;EntityPath=hub-dt-gemelos",
+        "hubDistanciaConnectionString": "Endpoint=sb://eira-eventhubs.servicebus.windows.net/;SharedAccessKeyName=distancia-policy;SharedAccessKey=cv/mUpZCrJRrj4VSFVRkEW2bl3+66nMtEjRx6WF1VOU=;EntityPath=hub-distancia",
+        "connectionStringUpdated": "Endpoint=sb://eira-eventhubs.servicebus.windows.net/;SharedAccessKeyName=dt-updated-policy;SharedAccessKey=+MEujbns/hMXpvxM9Es+6Jmfm/McPaKDPIM0650/8cc=;EntityPath=hub-dt-updated"
+      }
+    }
+  }
+}

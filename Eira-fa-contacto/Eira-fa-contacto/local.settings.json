@@ -1,0 +1,10 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "<value-stored-in-an-user-secret>",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "relationshipConnectionString": "<value-stored-in-an-user-secret>",
+    "contactoConnectionString": "<value-stored-in-an-user-secret>",
+    "distancia2mConnectionString": "<value-stored-in-an-user-secret>"
+  }
+}
