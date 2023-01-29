@@ -1,0 +1,17 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "<value-stored-in-an-user-secret>",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "EventHub:Name": "hub-iothub",
+    "EventHub:ConsumerGroup": "$Default",
+    "usuariosConnectionString": "<value-stored-in-an-user-secret>",
+    "hubGemelosConnectionString": "<value-stored-in-an-user-secret>",
+    "hubDistanciaConnectionString": "<value-stored-in-an-user-secret>",
+    "connectionStringUpdated": "<value-stored-in-an-user-secret>",
+    "ADT_SERVICE_URL": "https://eira-dt.api.weu.digitaltwins.azure.net",
+    "estanciasConnectionString": "<value-stored-in-an-user-secret>",
+    "hubDtAddedConnectionString": "<value-stored-in-an-user-secret>",
+    "hubDtDeletedConnectionString": "<value-stored-in-an-user-secret>"
+  }
+}

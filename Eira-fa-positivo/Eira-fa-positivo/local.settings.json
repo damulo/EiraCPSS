@@ -1,0 +1,13 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "<value-stored-in-an-user-secret>",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "hubGemelosConnectionString": "<value-stored-in-an-user-secret>",
+    "connectionStringUpdated": "<value-stored-in-an-user-secret>",
+    "positivoConnectionString": "<value-stored-in-an-user-secret>",
+    "contactosNotificarPositivoConnectionString": "<value-stored-in-an-user-secret>",
+    "contactosPositivoConnectionString": "<value-stored-in-an-user-secret>",
+    "CosmosDbConnectionString": "<value-stored-in-an-user-secret>"
+  }
+}

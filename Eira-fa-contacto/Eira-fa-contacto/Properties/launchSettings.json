@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Eira-fa-contacto": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "relationshipConnectionString": "Endpoint=sb://eira-eventhubs.servicebus.windows.net/;SharedAccessKeyName=hub-dt-relationship-policy;SharedAccessKey=uYHGQdCfrvmOM7uiFeeTrner5ClKpskLXAb1gqFnMkw=;EntityPath=hub-dt-relationship-updated",
+        "contactoConnectionString": "Endpoint=sb://eira-eventhubs.servicebus.windows.net/;SharedAccessKeyName=hub-contacto-policy;SharedAccessKey=dt8D/03jIL088X3SqJd+YM+6vaMg1a8PUA77HjDrqN0=;EntityPath=hub-contacto",
+        "distancia2mConnectionString": "Endpoint=sb://eira-eventhubs.servicebus.windows.net/;SharedAccessKeyName=hub-distancia2m-policy;SharedAccessKey=i06yGSI0aNi9SxLCY0bRpM2rmxFSn4jXLHuI0ZSeu1E=;EntityPath=hub-distancia2m"
+      }
+    }
+  }
+}
