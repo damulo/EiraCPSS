@@ -1,0 +1,213 @@
+﻿@page "/managedevices"
+
+@using BulkOperations
+@using Microsoft.Azure.Devices
+
+@inject DevicesService devicesService
+
+<h3>Gestionar dispositivos</h3>
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+  <div class="card-header"><h4>Añadir dispositivos</h4></div>
+  <div class="card-body">
+    <EditForm Model="@this" OnValidSubmit="@CreateDevice">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div>
+        <br />
+        <p>Nº de dispositivos a añadir</p>
+    <InputNumber id="numDevices" class="form-control" DisplayName="Nro de dispositivos" @bind-Value="numDevices" />
+    </div>
+    <div>
+        <br />
+        <p>Índice desde el que insertar</p>
+    <InputNumber id="position" class="form-control" DisplayName="Posición" @bind-Value="position" />
+    </div>
+    <div>
+        <br />
+        <p>Nombre base del dispositivo</p>
+    <InputText id="baseName" class="form-control" DisplayName="Nombre base" @bind-Value="baseName" />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Crear</button>
+</EditForm>
+  </div>
+</div>
+    </div>
+    <div class="col">
+      <EditForm Model="@this" OnValidSubmit="@DeleteDevices">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+<div class="card text-white bg-danger mb-3" style="width: 18rem;">
+  <div class="card-header">
+    <h4>Eliminar dispositivos</h4>
+  </div>
+  <div class="card-body">
+    <p>Contiene</p>
+    <InputText id="deleteBaseName" class="form-control" DisplayName="Contiene" @bind-Value="deleteBaseName" />
+    <br />
+    <button type="submit" class="btn btn-primary">Eliminar</button>
+  </div>
+</div>
+    <br />   
+</EditForm>
+    </div>
+    <div class="col">
+      <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+  <div class="card-header"><h4>Enviar telemetría de usuarios</h4></div>
+  <div class="card-body">
+    <p class="card-text">Envía una actualización de los datos de todos los usuarios presentes en IoT Hub</p>
+    <br />
+    <button type="submit" class="btn btn-primary" @onclick="SendData">Enviar</button>
+  </div>
+</div>
+    </div>
+    <div class="col">
+      <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+  <div class="card-header"><h4>Enviar telemetría de estancia</h4></div>
+  <div class="card-body">
+    <p class="card-text">Envía una actualización de los datos de todas las estancias presentes en IoT Hub</p>
+    <br />
+    <button type="submit" class="btn btn-primary" @onclick="SendDataToEstancia">Enviar</button>
+  </div>
+</div>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col">
+      <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+  <div class="card-header"><h4>Envío de telemetría a todos los dispositivos</h4></div>
+  <div class="card-body">
+    <p class="card-text">Envía una actualización de los datos de todos los dispositivos presentes en IoT Hub, a intervalos periódicos durante un tiempo determinado</p>
+    <br />
+    <EditForm Model="@this" OnValidSubmit="@SendToAllInterval">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <p>Intervalo (seg)</p>
+    <InputNumber id="interval" class="form-control" DisplayName="Intervalo" @bind-Value="interval" />
+    <br />
+    <p>Duración (min)</p>
+    <InputNumber id="duration" class="form-control" DisplayName="Duración" @bind-Value="duration" />
+    <br />
+    <button type="submit" class="btn btn-primary">Enviar</button>
+
+    <br />   
+</EditForm>
+</div>
+</div>
+</div>
+<div class="col">
+      <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+  <div class="card-header"><h4>Envío de telemetría a todos los dispositivos dentro de un rango</h4></div>
+  <div class="card-body">
+    <p class="card-text">Envía una actualización de los datos de todos los dispositivos presentes en IoT Hub, a intervalos periódicos durante un tiempo determinado y para un rango concreto</p>
+    <br />
+    <EditForm Model="@this" OnValidSubmit="@SendToAllIntervalRanged">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <p>Intervalo (seg)</p>
+    <InputNumber id="interval" class="form-control" DisplayName="Intervalo" @bind-Value="interval" />
+    <br />
+    <p>Duración (min)</p>
+    <InputNumber id="duration" class="form-control" DisplayName="Duración" @bind-Value="duration" />
+    <p>Inicio del rango (index)</p>
+    <InputNumber id="deviceIndex" class="form-control" DisplayName="Índice" @bind-Value="deviceIndex" />
+    <p>Tamaño del rango</p>
+    <InputNumber id="devicesCount" class="form-control" DisplayName="nro dispositivos" @bind-Value="devicesCount" />
+    <p>¿Incluir estancias?</p>
+    <InputCheckbox id="includeEstancias" @bind-Value="includeEstancias" />
+    <br />
+    <button type="submit" class="btn btn-primary">Enviar</button>
+
+    <br />   
+</EditForm>
+</div>
+</div>
+</div>
+<div class="col">
+      <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+  <div class="card-header"><h4>Envío de telemetría a un dispositivo</h4></div>
+  <div class="card-body">
+    <p class="card-text">Envía una actualización de los datos de un dispositivo concreto</p>
+    <br />
+    <EditForm Model="@this" OnValidSubmit="@SendToSpecificDevice">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <p>Id. dispositivo</p>
+    <InputText id="deviceName" class="form-control" DisplayName="Nombre" @bind-Value="deviceName" />
+    <br />
+    
+    <button type="submit" class="btn btn-primary">Enviar</button>
+
+    <br />   
+</EditForm>
+</div>
+</div>
+</div>
+
+</div>
+    </div>
+
+<br /><br />
+
+
+@code {
+    private string? deviceName;
+    private int numDevices;
+    private int devicesCount;
+    private int deviceIndex;
+    private int position;
+    private string? baseName;
+    private string? deleteBaseName;
+    private int interval;
+    private int duration;
+    private bool includeEstancias;
+
+    protected async Task CreateDevice()
+    {
+        await devicesService.AddDevices(numDevices, position, baseName);
+    }
+
+    protected async Task DeleteDevices()
+    {
+        _ = await devicesService.GetDevices();
+        await devicesService.DeleteAllDevices(deleteBaseName);
+    }
+
+    protected async Task SendData()
+    {
+        _ = await devicesService.GetDevices();
+        await devicesService.SendMessageFromAllUsers();
+    }
+
+    protected async Task SendDataToEstancia()
+    {
+        _ = await devicesService.GetDevices();
+        await devicesService.SendMessageFromAllEstancias();
+    }
+
+    protected async Task SendToAllInterval()
+    {
+        _ = await devicesService.GetDevices();
+        await devicesService.SendMessageFromAllDevices(interval, duration);
+    }
+
+    protected async Task SendToAllIntervalRanged()
+    {
+        _ = await devicesService.GetDevices();
+        await devicesService.SendMessageFromAllDevicesRanged(interval, duration, deviceIndex, devicesCount, includeEstancias);
+    }
+
+    protected async Task SendToSpecificDevice()
+    {
+        _ = await devicesService.GetDevices();
+        await devicesService.SendMessageFromSpecificDevice(deviceName);
+    }
+
+}
