@@ -1,0 +1,73 @@
+﻿@page "/fetchdata"
+
+<PageTitle>Listar dispositivos</PageTitle>
+
+@using BulkOperations
+@using Microsoft.Azure.Devices
+@using Microsoft.Azure.Devices.Shared
+@using WebApp.Data
+@using System.Collections.ObjectModel
+
+@inject DevicesService devicesService
+
+
+@*<h1>Mensajes recibidos</h1>*@
+<div class="container">
+  <div class="row"> 
+    @*<div class="col">
+        <button type="submit" class="btn btn-primary" @onclick="StartReceivingMessages">Recibir mensajes</button>
+    </div>*@
+    <div class="col">
+        <button type="submit" class="btn btn-primary" @onclick="SendMessageToEstancias">Simular envío C2D</button>
+    </div>
+  </div>
+</div>
+
+
+
+<h1>Dispositivos</h1>
+
+@if (devices == null)
+{
+    <p><em>Loading devices...</em></p>
+}
+else
+{
+    @*<IgbDataGrid DataSource="@devices" Height="400px"></IgbDataGrid>*@
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Device Id</th>
+                <th>Primary keyd</th>
+                <th>Status</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var device in devices)
+            {
+                <tr>
+                    <td>@device.Id</td>
+                    <td>@device.Authentication.SymmetricKey.PrimaryKey</td>
+                    <td>@device.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<Device>? devices;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _ = await devicesService.GetDevices();
+        devices = devicesService.Devices.OrderBy(g => g.Id);
+        // device = await devicesService.GetDevice("Usuario0107");
+    }
+
+    protected async Task StartReceivingMessages() => await devicesService.ReceiveMessagesFromAllFacilities();
+
+    protected async Task SendMessageToEstancias() => await devicesService.SendCloudMessageForAllFacilities();
+}

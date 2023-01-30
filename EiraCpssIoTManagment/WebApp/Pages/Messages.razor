@@ -1,0 +1,48 @@
+﻿@page "/messages"
+
+<PageTitle>Mensajes</PageTitle>
+
+@using BulkOperations
+@using Microsoft.Azure.Devices
+@using Microsoft.Azure.Devices.Shared
+@using WebApp.Data
+@using System.Collections.ObjectModel
+
+@inject DevicesService devicesService
+
+
+<h1>Mensajes recibidos</h1>
+<div class="container">
+  <div class="row">
+    <div class="col">
+        @if (devicesService.Messages == null || !devicesService.Messages.Any())
+{
+    <p><em>Esperando mensajes...</em></p>
+}
+else
+{
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Mensaje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var message in devicesService.Messages)
+            {
+                <tr>
+                    <td>@message</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+    </div>
+    
+  </div>
+</div>
+
+@code {
+    protected override async Task OnInitializedAsync() => await devicesService.ReceiveMessagesFromAllFacilities();
+}
